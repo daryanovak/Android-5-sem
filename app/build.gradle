@@ -1,21 +1,15 @@
 apply plugin: 'com.android.application'
 
 def getVersion(){
-    def cmd = 'git log --pretty=format:"%h%d" --all'
+    def cmd = 'git describe --tags'
     Process process = cmd.execute()
-    String[] commits = process.in.text.split('\\n')
-    def patch = 0
-    String pattern = /\d+[.]\d+/
-    String majorMinor
-    for (commit in commits){
-        if (commit =~ pattern) {
-            majorMinor = commit.find(pattern)
-            break
-        }
-        patch++
-    }
-    return majorMinor + "." + patch
+    String[] descriptionInfo = process.in.text.split('-')
+    return descriptionInfo[0] + "." + descriptionInfo[1]
 }
+
+def keystorePropertiesFile = rootProject.file("keys.properties")//данные для подписи сертификата
+def keystoreProperties = new Properties()// достаем ключи из файла, который нах. на компе локально
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
     compileSdkVersion 27
@@ -23,36 +17,47 @@ android {
         applicationId "com.example.darya.myapplication"
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode 1 // показывает разницу между версиями (нужна для плэй маркета)
+        versionName getVersion()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
-        release {
-            storeFile file("c:/Users/darya/Links/keystores/android.jks")
-            storePassword "000000"
-            keyAlias "000000"
-            keyPassword "000000"
-        }
-
-        dev {
-            storeFile file("c:/Users/darya/Links/keystores/android.jks")
-            storePassword "000000"
-            keyAlias "000000"
-            keyPassword "000000"
+        release {// ключи для подписи (подписываем наше приложения с помощью данных)
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
         }
     }
 
     buildTypes {
         release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
+    }
 
+    android.applicationVariants.all { variant ->// генерируем называние exe
+        variant.outputs.all {
+            outputFileName = "${rootProject.name}-${variant.versionName}.apk"
+        }
+    }
+
+    flavorDimensions "version"
+    productFlavors {
         dev {
-            signingConfig signingConfigs.dev
+            dimension "version" //то, по чему мы группируем наши версия
             versionNameSuffix "-dev"
         }
+        master {
+            dimension "version"
+        }
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
     }
 }
 
@@ -63,4 +68,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.android.support:design:27.1.1'
 }

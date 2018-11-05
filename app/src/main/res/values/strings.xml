@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="not_access">You do not have access to telephone data</string>
+    <string name="default_for_imei">Imei not found</string>
+    <string name="permission_description">we need permission access for imai</string>
+    <string name="never_permission_description">we need permission access for imai. you can change access in settings</string>
+    <string name="name_for_update_button">Get Imei</string>
+    <string name="ok">ok</string>
 </resources>
