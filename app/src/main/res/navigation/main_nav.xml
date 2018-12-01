@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/fragmentUser">
+
+
+    <fragment
+        android:id="@+id/fragmentUser"
+        android:name="com.example.darya.myapplication.FragmentUser"
+        android:label="fragment_fragment_user"
+        tools:layout="@layout/fragment_fragment_user" ></fragment>
+    <fragment
+        android:id="@+id/fragmentEmpty"
+        android:name="com.example.darya.myapplication.FragmentEmpty"
+        android:label="fragment_fragment_empty"
+        tools:layout="@layout/fragment_fragment_empty" />
+    <fragment
+        android:id="@+id/fragmentEmpty2"
+        android:name="com.example.darya.myapplication.FragmentEmpty2"
+        android:label="fragment_fragment_empty2"
+        tools:layout="@layout/fragment_fragment_empty2" />
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.darya.myapplication.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+</navigation>
