@@ -1,4 +1,4 @@
-package com.example.darya.myapplication;
+package com.example.darya.myapplication.activities;
 
 import android.Manifest;
 import android.content.Context;
@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.darya.myapplication.BuildConfig;
+import com.example.darya.myapplication.R;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;

@@ -1,11 +1,11 @@
-package com.example.darya.myapplication;
+package com.example.darya.myapplication.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.darya.myapplication.R;
 
 import androidx.fragment.app.Fragment;
 

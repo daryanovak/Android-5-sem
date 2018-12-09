@@ -8,22 +8,27 @@
 
     <fragment
         android:id="@+id/fragmentUser"
-        android:name="com.example.darya.myapplication.FragmentUser"
+        android:name="com.example.darya.myapplication.fragments.FragmentUser"
         android:label="fragment_fragment_user"
-        tools:layout="@layout/fragment_fragment_user" ></fragment>
+        tools:layout="@layout/fragment_fragment_user" ><deepLink app:uri="app://by.myapp/page/0"/></fragment>
     <fragment
         android:id="@+id/fragmentEmpty"
-        android:name="com.example.darya.myapplication.FragmentEmpty"
+        android:name="com.example.darya.myapplication.fragments.FragmentEmpty"
         android:label="fragment_fragment_empty"
-        tools:layout="@layout/fragment_fragment_empty" />
+        tools:layout="@layout/fragment_fragment_empty" ><deepLink app:uri="app://by.myapp/page/3"/></fragment>
     <fragment
         android:id="@+id/fragmentEmpty2"
-        android:name="com.example.darya.myapplication.FragmentEmpty2"
+        android:name="com.example.darya.myapplication.fragments.FragmentEmpty2"
         android:label="fragment_fragment_empty2"
-        tools:layout="@layout/fragment_fragment_empty2" />
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.example.darya.myapplication.MainActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_main" />
+        tools:layout="@layout/fragment_fragment_empty2" ><deepLink app:uri="app://by.myapp/page/1"/></fragment>
+    <fragment
+        android:id="@+id/editUserInfo"
+        android:name="com.example.darya.myapplication.fragments.FragmentEditUserInfo"
+        android:label="fragment_edit_user_info"
+        tools:layout="@layout/fragment_edit_user_info" ><deepLink app:uri="app://by.myapp/page/2"/></fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.example.darya.myapplication.fragments.PhoneimeiInfo"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" ><deepLink app:uri="app://by.myapp/page/4"/></fragment>
 </navigation>

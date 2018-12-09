@@ -1,4 +1,4 @@
-package com.example.darya.myapplication.data;
+package com.example.darya.myapplication.data.db;
 
 enum SqlUserFields {
     id,

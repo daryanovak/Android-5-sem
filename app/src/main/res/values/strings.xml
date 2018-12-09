@@ -13,14 +13,28 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="import_item">Import</string>
+    <string name="import_item">Profile</string>
     <string name="gallery_item">Gallery</string>
     <string name="slideshow_item">Slideshow</string>
-    <string name="tools_item">Tools</string>
+    <string name="tools_item">Imei</string>
     <string name="communicate_item">Communicate</string>
     <string name="share_item">Share</string>
     <string name="send_item">Send</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="user_info_template">
+         %s\ %s\nPhone: %s\nEmail: %s\n
+    </string>
+    <!-- Buttons -->
+    <string name="edit_button_name">Edit</string>
+    <string name="back_to_user_info">Back</string>
+    <string name="save_user_info">Save</string>
+
+    <!-- Labels -->
+    <string name="first_name_label">First name</string>
+    <string name="last_name_label">Last name</string>
+    <string name="email_label">Email</string>
+    <string name="phone_label">Phone</string>
 </resources>

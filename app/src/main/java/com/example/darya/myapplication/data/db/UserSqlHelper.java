@@ -1,4 +1,4 @@
-package com.example.darya.myapplication.data;
+package com.example.darya.myapplication.data.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
