@@ -4,6 +4,10 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+        <!--<item-->
+            <!--android:id="@+id/fragmentUser"-->
+            <!--android:icon="@drawable/ic_menu_camera"-->
+            <!--android:title="@string/import_item" />-->
         <item
             android:id="@+id/fragmentEmpty"
             android:icon="@drawable/ic_menu_gallery"

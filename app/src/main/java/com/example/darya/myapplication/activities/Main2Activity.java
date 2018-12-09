@@ -74,7 +74,7 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
         User user = userSQLiteRepository.getUser();
         View headerView = navView.getHeaderView(0);
         headerView.findViewById(R.id.fragmentUser).setOnClickListener(v -> {
-            navController.navigate(R.id.editUserInfo);
+            navController.navigate(R.id.fragmentUser);
             drawer.closeDrawer(GravityCompat.START);
         });
         findViewById(R.id.imei_button).setOnClickListener(v ->
