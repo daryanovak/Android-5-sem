@@ -10,16 +10,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.darya.myapplication.BuildConfig;
 import com.example.darya.myapplication.R;
+import com.example.darya.myapplication.data.db.UserSQLiteRepository;
 import com.example.darya.myapplication.data.filemanager.FilePhotoManager;
-import com.example.darya.myapplication.interfaces.PhoneimeiInfoFragment;
 import com.example.darya.myapplication.data.models.User;
+import com.example.darya.myapplication.interfaces.PhoneimeiInfoFragment;
 import com.example.darya.myapplication.interfaces.UserEditFragment;
 import com.example.darya.myapplication.interfaces.UserInfoFragment;
-import com.example.darya.myapplication.data.db.UserSQLiteRepository;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
@@ -29,6 +31,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -56,17 +59,34 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment); // получаем граф навигации(элементы выбора)
-        NavigationUI.setupWithNavController((NavigationView) findViewById(R.id.nav_view), navController);// связываем навигацию с меню
-        NavigationUI.setupActionBarWithNavController(this, navController, findViewById(R.id.drawer_layout));
-
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navView = findViewById(R.id.nav_view);
+
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment); // получаем граф навигации(элементы выбора)
+        NavigationUI.setupWithNavController(navView, navController);// связываем навигацию с меню
+        NavigationUI.setupActionBarWithNavController(this, navController, drawer);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        User user = userSQLiteRepository.getUser();
+        View headerView = navView.getHeaderView(0);
+        headerView.findViewById(R.id.fragmentUser).setOnClickListener(v -> {
+            navController.navigate(R.id.editUserInfo);
+            drawer.closeDrawer(GravityCompat.START);
+        });
+        findViewById(R.id.imei_button).setOnClickListener(v ->
+                navController.navigate(R.id.aboutFragment));
+
+        TextView nameTextView = headerView.findViewById(R.id.user_email_menu);
+        nameTextView.setText(user.getFirstName());
+
+        TextView emailTextView = headerView.findViewById(R.id.textView);
+        emailTextView.setText(user.getEmail());
+
+        loadUserAvatar(headerView.findViewById(R.id.fragmentUser));
     }
 
     @Override
