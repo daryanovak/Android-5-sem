@@ -88,7 +88,31 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
 
         loadUserAvatar(headerView.findViewById(R.id.fragmentUser));
     }
+    private void onToolbarNavigationClickListener(View v) {
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
+        List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
+        for (Fragment fragment : fragmentList) {
+            if (fragment instanceof NavHostFragment) {
+                List<Fragment> childFragments = fragment.getChildFragmentManager().getFragments();
+                if (childFragments.get(0) instanceof FragmentUser) {
+                    toggleNavigationDrawer(drawer);
+                } else {
+                    Navigation.findNavController(Main2Activity.this, R.id.nav_host_fragment).popBackStack();
+                }
+            }
+        }
+    }
+
+    private void toggleNavigationDrawer(DrawerLayout drawer) {
+        int drawerLockMode = drawer.getDrawerLockMode(GravityCompat.START);
+        if (drawer.isDrawerVisible(GravityCompat.START)
+                && (drawerLockMode != DrawerLayout.LOCK_MODE_LOCKED_OPEN)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (drawerLockMode != DrawerLayout.LOCK_MODE_LOCKED_CLOSED) {
+            drawer.openDrawer(GravityCompat.START);
+        }
+    }
     @Override
     public void ButtonEditClick() {
         navController.navigate(R.id.editUserInfo);
