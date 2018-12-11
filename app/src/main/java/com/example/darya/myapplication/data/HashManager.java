@@ -8,7 +8,7 @@ public class HashManager {
     public String getHash(final String text){
         MessageDigest messageDigest = null;
         try {
-            messageDigest = MessageDigest.getInstance("MD4");
+            messageDigest = MessageDigest.getInstance("MD5");
             messageDigest.update(text.getBytes());
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();

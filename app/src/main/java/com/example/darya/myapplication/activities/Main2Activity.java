@@ -41,24 +41,34 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
-public class Main2Activity extends AppCompatActivity
+public class Main2Activity extends AccountManagerActivity
 implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
 
     final int OPEN_CAMERA_REQUEST = 1;
     final int OPEN_GALLERY_REQUEST = 2;
 
     private final int REQUEST_CODE_PERMISSION_READ_PHONE_STATE = 1;
+    private int currentUserId;
 
     private NavController navController;
-    private UserSQLiteRepository userSQLiteRepository;
     private FilePhotoManager filePhotoManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        userSQLiteRepository = new UserSQLiteRepository(this);
+        super.onCreate(savedInstanceState);
+
+        String userId = accountManager.getIdAuthorizedUser();
+        if (userId != null) {
+            currentUserId = Integer.valueOf(userId);
+        }
+        else {
+            Intent intent = new Intent(this, AuthenticationActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         filePhotoManager = new FilePhotoManager(this);
 
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);//отобразить xml
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -77,7 +87,7 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
         toggle.setDrawerIndicatorEnabled(false);
         toggle.setToolbarNavigationClickListener(this::onToolbarNavigationClickListener);
 
-        User user = userSQLiteRepository.getUser();
+        User user = userSQLiteRepository.getUserById(currentUserId);
         View headerView = navView.getHeaderView(0);
         headerView.findViewById(R.id.fragmentUser).setOnClickListener(v -> {
             navController.navigate(R.id.editUserInfo);
@@ -163,7 +173,7 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
 
     @Override
     public User getUser() {
-        return userSQLiteRepository.getUser();
+        return userSQLiteRepository.getUserById(currentUserId);
     }
 
     @Override

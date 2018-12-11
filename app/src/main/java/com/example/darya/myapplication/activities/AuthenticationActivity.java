@@ -1,6 +1,5 @@
 package com.example.darya.myapplication.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -51,7 +50,7 @@ public class AuthenticationActivity extends AccountManagerActivity
     @Override
     public void onLogInButtonClick(String email, String password)
             throws PasswordDoesNotMatchException, EmailNotFoundException {
-        User user = userRepository.getUserByEmail(email);
+        User user = userSQLiteRepository.getUserByEmail(email);
         if (user != null){
             if (user.getHashedPassword().equals(hashManager.getHash(password))){
                 logIn(String.valueOf(user.getId()));
@@ -77,8 +76,8 @@ public class AuthenticationActivity extends AccountManagerActivity
     public void onRegistrationButtonClick(String firstName, String lastName, String email,
                                           String phone, String password) {
         User user = new User(0, firstName, lastName, email, phone, hashManager.getHash(password));
-        userRepository.addUser(user);
-        int id = userRepository.getUserByEmail(user.getEmail()).getId();
+        userSQLiteRepository.addUser(user);
+        int id = userSQLiteRepository.getUserByEmail(user.getEmail()).getId();
         logIn(String.valueOf(id));
     }
 

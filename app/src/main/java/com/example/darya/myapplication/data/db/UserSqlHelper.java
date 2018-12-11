@@ -19,12 +19,14 @@ public class UserSqlHelper extends SQLiteOpenHelper {
                 + SqlUserFields.first_name + " TEXT NOT NULL, "
                 + SqlUserFields.last_name + " TEXT NOT NULL, "
                 + SqlUserFields.email + " TEXT NOT NULL, "
-                + SqlUserFields.phone + " TEXT NOT NULL);";
+                + SqlUserFields.phone + " TEXT NOT NULL, "
+                + SqlUserFields.password + " TEXT NOT NULL);";
         db.execSQL(request);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + NAME_OF_TABLE);
+        onCreate(sqLiteDatabase);
     }
 }
