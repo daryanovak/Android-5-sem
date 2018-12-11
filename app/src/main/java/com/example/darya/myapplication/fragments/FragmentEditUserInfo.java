@@ -1,6 +1,8 @@
 package com.example.darya.myapplication.fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +45,12 @@ public class FragmentEditUserInfo extends Fragment {
 
         userEditFragment.loadUserAvatar(avatarView);
         avatarView.setOnClickListener(v->userEditFragment.updatePhoto());
+
+        if(savedInstanceState != null) {
+            Bitmap bitmap = savedInstanceState.getParcelable("image");
+            avatarView.setImageBitmap(bitmap);
+        }
+
         return view;
     }
 
@@ -55,6 +63,14 @@ public class FragmentEditUserInfo extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement editUserInfo");
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        BitmapDrawable drawable = (BitmapDrawable) avatarView.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
+        outState.putParcelable("image", bitmap);
+        super.onSaveInstanceState(outState);
     }
 
     private void initializationViewComponent(View parentContainer, User user) {
