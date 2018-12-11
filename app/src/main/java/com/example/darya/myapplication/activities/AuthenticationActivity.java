@@ -2,14 +2,20 @@ package com.example.darya.myapplication.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.darya.myapplication.R;
+import com.example.darya.myapplication.data.HashManager;
+import com.example.darya.myapplication.data.models.User;
+import com.example.darya.myapplication.exceptions.EmailNotFoundException;
+import com.example.darya.myapplication.exceptions.PasswordDoesNotMatchException;
 import com.example.darya.myapplication.interfaces.authentication.Authorization;
 import com.example.darya.myapplication.interfaces.authentication.Registration;
 
-public class AuthenticationActivity extends AppCompatActivity
+public class AuthenticationActivity extends AccountManagerActivity
         implements Authorization, Registration {
 
     private NavController navController;
@@ -17,7 +23,7 @@ public class AuthenticationActivity extends AppCompatActivity
 
     private final String USER_KEY = "user_key";
 
-    private final HashManager hashManager = new HashManager(EncryptionAlgorithm.MD5);
+    private final HashManager hashManager = new HashManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,13 +31,11 @@ public class AuthenticationActivity extends AppCompatActivity
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null && bundle.containsKey(IS_LOGOUT_KEY)){
-            sessionController.logOut();
+            accountManager.logOut();
         }
 
-        String userId = sessionController.getIdAuthorizedUser();
+        String userId = accountManager.getIdAuthorizedUser();
         if (userId != null){
-            Toast toast = Toast.makeText(this, userId, Toast.LENGTH_SHORT);
-            toast.show();
             logIn(userId);
         }
 
@@ -62,9 +66,9 @@ public class AuthenticationActivity extends AppCompatActivity
     }
 
     public void logIn(String id){
-        sessionController.logIn(id);
+        accountManager.logIn(id);
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, Main2Activity.class);
 //        intent.putExtra(CURRENT_USER_ID_KEY, id);
         startActivity(intent);
     }
