@@ -102,6 +102,9 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
         TextView emailTextView = headerView.findViewById(R.id.textView);
         emailTextView.setText(user.getEmail());
 
+        findViewById(R.id.logout_button).setOnClickListener(
+                v -> logOut());
+
         loadUserAvatar(headerView.findViewById(R.id.fragmentUser));
     }
 
@@ -119,6 +122,24 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
                 }
             }
         }
+    }
+
+    private void logOut(){
+        final String positive = getResources().getString(R.string.positive_logout);
+        final String negative = getResources().getString(R.string.negative_logout);
+        final String title = getResources().getString(R.string.logout_description_for_dialog);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title)
+                .setPositiveButton(positive, (dialog, which) -> {
+                    Intent intent = new Intent(this, AuthenticationActivity.class);
+                    intent.putExtra(IS_LOGOUT_KEY, currentUserId);
+                    startActivity(intent);
+                    finish();
+                })
+                .setNegativeButton(negative, (dialog, which) -> dialog.cancel());
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     private void toggleNavigationDrawer(DrawerLayout drawer) {
