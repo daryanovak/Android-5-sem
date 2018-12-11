@@ -19,12 +19,14 @@ import com.example.darya.myapplication.R;
 import com.example.darya.myapplication.data.db.UserSQLiteRepository;
 import com.example.darya.myapplication.data.filemanager.FilePhotoManager;
 import com.example.darya.myapplication.data.models.User;
+import com.example.darya.myapplication.fragments.FragmentUser;
 import com.example.darya.myapplication.interfaces.PhoneimeiInfoFragment;
 import com.example.darya.myapplication.interfaces.UserEditFragment;
 import com.example.darya.myapplication.interfaces.UserInfoFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
+import java.util.List;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
@@ -33,8 +35,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 public class Main2Activity extends AppCompatActivity
@@ -70,6 +74,8 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        toggle.setDrawerIndicatorEnabled(false);
+        toggle.setToolbarNavigationClickListener(this::onToolbarNavigationClickListener);
 
         User user = userSQLiteRepository.getUser();
         View headerView = navView.getHeaderView(0);
@@ -87,6 +93,32 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
         emailTextView.setText(user.getEmail());
 
         loadUserAvatar(headerView.findViewById(R.id.fragmentUser));
+    }
+
+    private void onToolbarNavigationClickListener(View v) {
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+        List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
+        for (Fragment fragment : fragmentList) {
+            if (fragment instanceof NavHostFragment) {
+                List<Fragment> childFragments = fragment.getChildFragmentManager().getFragments();
+                if (childFragments.get(0) instanceof FragmentUser) {
+                    toggleNavigationDrawer(drawer);
+                } else {
+                    Navigation.findNavController(Main2Activity.this, R.id.nav_host_fragment).popBackStack();
+                }
+            }
+        }
+    }
+
+    private void toggleNavigationDrawer(DrawerLayout drawer) {
+        int drawerLockMode = drawer.getDrawerLockMode(GravityCompat.START);
+        if (drawer.isDrawerVisible(GravityCompat.START)
+                && (drawerLockMode != DrawerLayout.LOCK_MODE_LOCKED_OPEN)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (drawerLockMode != DrawerLayout.LOCK_MODE_LOCKED_CLOSED) {
+            drawer.openDrawer(GravityCompat.START);
+        }
     }
 
     @Override
