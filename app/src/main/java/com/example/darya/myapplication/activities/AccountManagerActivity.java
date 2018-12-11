@@ -19,4 +19,5 @@ public class AccountManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         accountManager = new AccountsManager(this);
         userRepository = new UserSQLiteRepository(this);
+    }
 }

@@ -16,39 +16,68 @@ public class UserSQLiteRepository {
         userSqlHelper = new UserSqlHelper(contex);
     }
 
-    public User getUser(){
-        SQLiteDatabase db = userSqlHelper.getReadableDatabase();
-        try {
-        String request = "SELECT * FROM " + userSqlHelper.NAME_OF_TABLE;
-        Cursor cursor = db.rawQuery(request, null);
-        if (cursor.moveToNext()){
-            userId = cursor.getInt(SqlUserFields.id.ordinal());
-            String first_name = cursor.getString(SqlUserFields.first_name.ordinal());
-            String last_name = cursor.getString(SqlUserFields.last_name.ordinal());
-            String email = cursor.getString(SqlUserFields.email.ordinal());
-            String phone = cursor.getString(SqlUserFields.phone.ordinal());
-            return new User(userId, first_name, last_name, email, phone);
-        }
-        return null;
-        } finally {
-            db.close();
+
+    public void savedUser(User user) {
+        ContentValues cv = new ContentValues();
+        cv.put(SqlUserFields.first_name.toString(), user.getFirstName());
+        cv.put(SqlUserFields.last_name.toString(), user.getLastName());
+        cv.put(SqlUserFields.phone.toString(), user.getPhone());
+        cv.put(SqlUserFields.email.toString(), user.getEmail());
+
+        try (SQLiteDatabase db = userSqlHelper.getReadableDatabase()) {
+            db.update(userSqlHelper.NAME_OF_TABLE, cv,
+                    SqlUserFields.id.toString() + "=" + String.valueOf(userId), null);
         }
     }
 
-    public void savedUser(User user) {
+
+    public void addUser(User user){
         ContentValues contentValues = new ContentValues();
         contentValues.put(SqlUserFields.first_name.toString(), user.getFirstName());
         contentValues.put(SqlUserFields.last_name.toString(), user.getLastName());
         contentValues.put(SqlUserFields.phone.toString(), user.getPhone());
         contentValues.put(SqlUserFields.email.toString(), user.getEmail());
-
-        SQLiteDatabase db = userSqlHelper.getReadableDatabase();
-        try {
-            db.update(userSqlHelper.NAME_OF_TABLE, contentValues,
-                    SqlUserFields.id.toString() + "=" + String.valueOf(userId), null);
-        }
-        finally {
-            db.close();
+        contentValues.put(SqlUserFields.password.toString(), user.getHashedPassword());
+        try (SQLiteDatabase database = userSqlHelper.getReadableDatabase()) {
+            database.insert(userSqlHelper.NAME_OF_TABLE, null, contentValues);
         }
     }
+
+
+    public User getUserByEmail(String email){
+        try (SQLiteDatabase db = userSqlHelper.getReadableDatabase()) {
+            String request = "SELECT * FROM " + userSqlHelper.NAME_OF_TABLE
+                    + " WHERE " + SqlUserFields.email.toString() + " = '" + email + "';";
+            Cursor cursor = db.rawQuery(request, null);
+            if (cursor.moveToFirst()) {
+                userId = cursor.getInt(SqlUserFields.id.ordinal());
+                String firstName = cursor.getString(SqlUserFields.first_name.ordinal());
+                String lastName = cursor.getString(SqlUserFields.last_name.ordinal());
+                String phone = cursor.getString(SqlUserFields.phone.ordinal());
+                String password = cursor.getString(SqlUserFields.password.ordinal());
+                return new User(userId, firstName, lastName, email, phone, password);
+            }
+            return null;
+        }
+    }
+
+
+    public User getUserById(int id){
+        try (SQLiteDatabase db = userSqlHelper.getReadableDatabase()) {
+            String request = "SELECT * FROM " + userSqlHelper.NAME_OF_TABLE
+                    + " WHERE " + SqlUserFields.id.toString() + " = " + String.valueOf(id) + ";";
+            Cursor cursor = db.rawQuery(request, null);
+            if (cursor.moveToFirst()) {
+                userId = cursor.getInt(SqlUserFields.id.ordinal());
+                String firstName = cursor.getString(SqlUserFields.first_name.ordinal());
+                String lastName = cursor.getString(SqlUserFields.last_name.ordinal());
+                String phone = cursor.getString(SqlUserFields.phone.ordinal());
+                String email = cursor.getString(SqlUserFields.email.ordinal());
+                String password = cursor.getString(SqlUserFields.password.ordinal());
+                return new User(userId, firstName, lastName, email, phone, password);
+            }
+            return null;
+        }
+    }
+
 }

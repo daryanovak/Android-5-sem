@@ -21,16 +21,6 @@ public class UserSqlHelper extends SQLiteOpenHelper {
                 + SqlUserFields.email + " TEXT NOT NULL, "
                 + SqlUserFields.phone + " TEXT NOT NULL);";
         db.execSQL(request);
-        request = "INSERT INTO " +
-                NAME_OF_TABLE + " ("
-                + SqlUserFields.id + ", "
-                + SqlUserFields.first_name + ", "
-                + SqlUserFields.last_name + ", "
-                + SqlUserFields.email + ", "
-                + SqlUserFields.phone + ") "
-                + " VALUES ('0', 'default', 'default', 'default', 'default')";
-        db.execSQL(request);
-
     }
 
     @Override

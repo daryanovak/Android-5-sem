@@ -39,7 +39,7 @@ public class AuthenticationActivity extends AccountManagerActivity
             logIn(userId);
         }
 
-        setContentView(R.layout.activity_authentication);
+        setContentView(R.layout.activity_authorization);
         navController = Navigation.findNavController(this, R.id.auth_host_fragment);
     }
 
@@ -53,7 +53,7 @@ public class AuthenticationActivity extends AccountManagerActivity
             throws PasswordDoesNotMatchException, EmailNotFoundException {
         User user = userRepository.getUserByEmail(email);
         if (user != null){
-            if (user.getPassword().equals(hashManager.getHash(password))){
+            if (user.getHashedPassword().equals(hashManager.getHash(password))){
                 logIn(String.valueOf(user.getId()));
             }
             else {

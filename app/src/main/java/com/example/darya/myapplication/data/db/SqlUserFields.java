@@ -5,5 +5,6 @@ enum SqlUserFields {
     first_name,
     last_name,
     email,
-    phone
+    phone,
+    password
 }
