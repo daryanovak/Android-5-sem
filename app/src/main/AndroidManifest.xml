@@ -19,7 +19,9 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
-        <activity android:name=".activities.AuthenticationActivity">
+        <activity
+            android:name=".activities.AuthenticationActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

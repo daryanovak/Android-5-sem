@@ -53,6 +53,12 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
     private NavController navController;
     private FilePhotoManager filePhotoManager;
 
+    private boolean currentPageIsEditing = false;
+
+    private interface Delegate{
+        void invoke();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,7 +124,11 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
                 if (childFragments.get(0) instanceof FragmentUser) {
                     toggleNavigationDrawer(drawer);
                 } else {
-                    Navigation.findNavController(Main2Activity.this, R.id.nav_host_fragment).popBackStack();
+                    if (currentPageIsEditing) {
+                        checkChangesUserInfo(navController::popBackStack);
+                    } else {
+                        Navigation.findNavController(Main2Activity.this, R.id.nav_host_fragment).popBackStack();
+                    }
                 }
             }
         }
@@ -153,6 +163,48 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
     }
 
     @Override
+    public void onBackPressed(){
+        if (currentPageIsEditing){
+            checkChangesUserInfo(super::onBackPressed);
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
+
+    private void checkChangesUserInfo(Delegate goTo){
+        TextView firstNameEditText = findViewById(R.id.first_name_edit);
+        TextView lastNameEditText = findViewById(R.id.last_name_edit);
+        TextView phoneEditText = findViewById(R.id.phone_edit);
+        TextView emailEditText = findViewById(R.id.email_edit);
+
+        String firstName = firstNameEditText.getText().toString();
+        String lastName = lastNameEditText.getText().toString();
+        String phone = phoneEditText.getText().toString();
+        String email = emailEditText.getText().toString();
+
+        User user = userSQLiteRepository.getUserById(currentUserId);
+
+        if (!user.getFirstName().equals(firstName) || !user.getLastName().equals(lastName) ||
+                !user.getPhone().equals(phone) || !user.getEmail().equals(email)){
+
+            final String positive = getResources().getString(R.string.positive_logout);
+            final String negative = getResources().getString(R.string.negative_logout);
+            final String title = "Save changes??";
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(title)
+                    .setPositiveButton(positive, (dialog, which) -> {
+                        ClickButtonUdpate(new User(firstName, lastName, email, phone));
+                        goTo.invoke();
+                    })
+                    .setNegativeButton(negative, (dialog, which) ->  goTo.invoke());
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+    }
+
+    @Override
     public void ButtonEditClick() {
         navController.navigate(R.id.editUserInfo);
     }
@@ -163,8 +215,6 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
         Bitmap avatar = ((BitmapDrawable)viewForAvatar.getDrawable()).getBitmap();
         userSQLiteRepository.savedUser(user);
         filePhotoManager.updateAvatar(avatar);
-        navController.popBackStack();
-
     }
 
     @Override
@@ -303,5 +353,10 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
         AlertDialog alert = builder.create();
 
         alert.show();
+    }
+
+    @Override
+    public void setCurrenPage(boolean state) {
+        currentPageIsEditing = state;
     }
 }

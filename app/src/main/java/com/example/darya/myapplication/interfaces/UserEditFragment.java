@@ -11,4 +11,5 @@ public interface UserEditFragment {
     void ClickButtonBack();
     void loadUserAvatar(ImageView view);
     void updatePhoto();
+    void setCurrenPage(boolean state);
 }

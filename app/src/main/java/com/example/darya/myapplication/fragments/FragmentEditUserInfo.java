@@ -28,6 +28,11 @@ public class FragmentEditUserInfo extends Fragment {
 
     private UserEditFragment userEditFragment;
 
+    @Override
+    public void onResume() {
+        userEditFragment.setCurrenPage(true);
+        super.onResume();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,7 +43,10 @@ public class FragmentEditUserInfo extends Fragment {
         initializationViewComponent(view, user);
 
         view.findViewById(R.id.save_user_info_button)
-                .setOnClickListener(v -> updateUser());
+                .setOnClickListener(v -> {
+                    updateUser();
+                    userEditFragment.ClickButtonBack();
+                });
 
         view.findViewById(R.id.back_from_edit_button).setOnClickListener(
                 v-> userEditFragment.ClickButtonBack());
@@ -52,6 +60,12 @@ public class FragmentEditUserInfo extends Fragment {
         }
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        userEditFragment.setCurrenPage(false);
+        super.onPause();
     }
 
     @Override
