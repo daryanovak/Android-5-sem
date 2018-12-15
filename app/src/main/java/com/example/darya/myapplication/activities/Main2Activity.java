@@ -55,6 +55,8 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
 
     private boolean currentPageIsEditing = false;
 
+    private View headerView;
+
     private interface Delegate{
         void invoke();
     }
@@ -94,7 +96,7 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
         toggle.setToolbarNavigationClickListener(this::onToolbarNavigationClickListener);
 
         User user = userSQLiteRepository.getUserById(currentUserId);
-        View headerView = navView.getHeaderView(0);
+        headerView = navView.getHeaderView(0);
         headerView.findViewById(R.id.fragmentUser).setOnClickListener(v -> {
             navController.navigate(R.id.editUserInfo);
             drawer.closeDrawer(GravityCompat.START);
@@ -202,6 +204,9 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
             AlertDialog alert = builder.create();
             alert.show();
         }
+        else{
+            goTo.invoke();
+        }
     }
 
     @Override
@@ -215,6 +220,14 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
         Bitmap avatar = ((BitmapDrawable)viewForAvatar.getDrawable()).getBitmap();
         userSQLiteRepository.savedUser(user);
         filePhotoManager.updateAvatar(avatar);
+
+        TextView nameTextView = headerView.findViewById(R.id.user_email_menu);
+        nameTextView.setText(user.getFirstName());
+
+        TextView emailTextView = headerView.findViewById(R.id.textView);
+        emailTextView.setText(user.getEmail());
+
+        loadUserAvatar(headerView.findViewById(R.id.fragmentUser), avatar);
     }
 
     @Override
@@ -230,6 +243,14 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
             view.setImageURI(uriForAvatar);
         }
     }
+
+    public void loadUserAvatar(ImageView view, Bitmap bitmap) {
+        if (bitmap != null) {
+            view.setImageBitmap(bitmap);
+        }
+    }
+
+
     public void loadNewAvatar() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
@@ -259,6 +280,7 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
                         avatar = (Bitmap) data.getExtras().get("data");
                         viewForAvatar.setImageBitmap(avatar);
                         viewForAvatar.setRotation(90);
+
                     }
                 }
                 break;

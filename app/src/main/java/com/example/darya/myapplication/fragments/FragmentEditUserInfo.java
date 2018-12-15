@@ -109,8 +109,8 @@ public class FragmentEditUserInfo extends Fragment {
         User user = new User(
                 firstNameEditText.getText().toString(),
                 lastNameEditText.getText().toString(),
-                phoneEditText.getText().toString(),
-                emailEditText.getText().toString()
+                emailEditText.getText().toString(),
+                phoneEditText.getText().toString()
         );
         userEditFragment.ClickButtonUdpate(user);
     }
