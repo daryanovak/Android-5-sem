@@ -9,25 +9,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".fragments.RssFragment">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:hint="Rss feed source">
 
-        <EditText
-            android:id="@+id/rssFeedEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/feedLink"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Feed Link: " />
+        android:layout_height="wrap_content" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"

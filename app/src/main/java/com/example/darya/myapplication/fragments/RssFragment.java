@@ -55,7 +55,7 @@ public class RssFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             mSwipeLayout.setRefreshing(true);
-            urlLink = "https://www.buzzfeed.com/world.xml";
+            urlLink = "https://rss.nytimes.com/services/xml/rss/nyt/US.xml";
         }
 
         @Override
@@ -169,7 +169,7 @@ public class RssFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_rss, container, false);
 
         mRecyclerView = view.findViewById(R.id.recyclerView);
-        mEditText = view.findViewById(R.id.rssFeedEditText);
+//        mEditText = view.findViewById(R.id.rssFeedEditText);
         mSwipeLayout = view.findViewById(R.id.swipeRefreshLayout);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
