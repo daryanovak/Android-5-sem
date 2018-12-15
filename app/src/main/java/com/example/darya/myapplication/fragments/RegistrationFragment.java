@@ -23,6 +23,7 @@ public class RegistrationFragment extends Fragment {
     private EditText lastNameEditText;
     private EditText phoneEditText;
 
+
     private TextInputLayout emailTextInputLayout;
     private TextInputLayout passwordTextInputLayout;
     private TextInputLayout confirmPasswordTextInputLayout;

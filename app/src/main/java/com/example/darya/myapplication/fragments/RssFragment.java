@@ -36,18 +36,17 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 public class RssFragment extends Fragment {
     private Context context;
 
+
     private RecyclerView mRecyclerView;
     private EditText mEditText;
     private Button mFetchFeedButton;
     private SwipeRefreshLayout mSwipeLayout;
-    private TextView mFeedTitleTextView;
-    private TextView mFeedLinkTextView;
-    private TextView mFeedDescriptionTextView;
 
     private List<RssFeedModel> mFeedModelList;
     private String mFeedTitle;
     private String mFeedLink;
     private String mFeedDescription;
+
 
     private class FetchFeedTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -56,7 +55,7 @@ public class RssFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             mSwipeLayout.setRefreshing(true);
-            urlLink = mEditText.getText().toString();
+            urlLink = "https://www.buzzfeed.com/world.xml";
         }
 
         @Override
@@ -83,110 +82,100 @@ public class RssFragment extends Fragment {
             mSwipeLayout.setRefreshing(false);
 
             if (success) {
-                mFeedTitleTextView.setText("Feed Title: " + mFeedTitle);
-                mFeedDescriptionTextView.setText("Feed Description: " + mFeedDescription);
-                mFeedLinkTextView.setText("Feed Link: " + mFeedLink);
-                // Fill RecyclerView
                 mRecyclerView.setAdapter(new RssFeedListAdapter(mFeedModelList));
             } else {
-                Toast.makeText(context,
-                        "Enter a valid Rss feed url",
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Enter a valid Rss feed url", Toast.LENGTH_LONG).show();
             }
         }
-        public List<RssFeedModel> parseFeed(InputStream inputStream) throws XmlPullParserException,
-                IOException {
-            String title = null;
-            String link = null;
-            String description = null;
-            boolean isItem = false;
-            List<RssFeedModel> items = new ArrayList<RssFeedModel>();
+    }
 
-            try {
-                XmlPullParser xmlPullParser = Xml.newPullParser();
-                xmlPullParser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-                xmlPullParser.setInput(inputStream, null);
+    public List<RssFeedModel> parseFeed(InputStream inputStream) throws XmlPullParserException,
+            IOException {
+        String title = null;
+        String link = null;
+        String description = null;
+        boolean isItem = false;
+        List<RssFeedModel> items = new ArrayList<RssFeedModel>();
 
-                xmlPullParser.nextTag();
-                while (xmlPullParser.next() != XmlPullParser.END_DOCUMENT) {
-                    int eventType = xmlPullParser.getEventType();
+        try {
+            XmlPullParser xmlPullParser = Xml.newPullParser();
+            xmlPullParser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+            xmlPullParser.setInput(inputStream, null);
 
-                    String name = xmlPullParser.getName();
-                    if(name == null)
-                        continue;
+            xmlPullParser.nextTag();
+            while (xmlPullParser.next() != XmlPullParser.END_DOCUMENT) {
+                int eventType = xmlPullParser.getEventType();
 
-                    if(eventType == XmlPullParser.END_TAG) {
-                        if(name.equalsIgnoreCase("item")) {
-                            isItem = false;
-                        }
-                        continue;
-                    }
+                String name = xmlPullParser.getName();
+                if(name == null)
+                    continue;
 
-                    if (eventType == XmlPullParser.START_TAG) {
-                        if(name.equalsIgnoreCase("item")) {
-                            isItem = true;
-                            continue;
-                        }
-                    }
-
-                    Log.d("MyXmlParser", "Parsing name ==> " + name);
-                    String result = "";
-                    if (xmlPullParser.next() == XmlPullParser.TEXT) {
-                        result = xmlPullParser.getText();
-                        xmlPullParser.nextTag();
-                    }
-
-                    if (name.equalsIgnoreCase("title")) {
-                        title = result;
-                    } else if (name.equalsIgnoreCase("link")) {
-                        link = result;
-                    } else if (name.equalsIgnoreCase("description")) {
-                        description = result;
-                    }
-
-                    if (title != null && link != null && description != null) {
-                        if(isItem) {
-                            RssFeedModel item = new RssFeedModel(title, link, description);
-                            items.add(item);
-                        }
-                        else {
-                            mFeedTitle = title;
-                            mFeedLink = link;
-                            mFeedDescription = description;
-                        }
-
-                        title = null;
-                        link = null;
-                        description = null;
+                if(eventType == XmlPullParser.END_TAG) {
+                    if(name.equalsIgnoreCase("item")) {
                         isItem = false;
+                    }
+                    continue;
+                }
+
+                if (eventType == XmlPullParser.START_TAG) {
+                    if(name.equalsIgnoreCase("item")) {
+                        isItem = true;
+                        continue;
                     }
                 }
 
-                return items;
-            } finally {
-                inputStream.close();
+                Log.d("MyXmlParser", "Parsing name ==> " + name);
+                String result = "";
+                if (xmlPullParser.next() == XmlPullParser.TEXT) {
+                    result = xmlPullParser.getText();
+                    xmlPullParser.nextTag();
+                }
+
+                if (name.equalsIgnoreCase("title")) {
+                    title = result;
+                } else if (name.equalsIgnoreCase("link")) {
+                    link = result;
+                } else if (name.equalsIgnoreCase("description")) {
+                    description = result;
+                }
+
+                if (title != null && link != null && description != null) {
+                    if(isItem) {
+                        RssFeedModel item = new RssFeedModel(title, link, description);
+                        items.add(item);
+                    }
+                    else {
+                        mFeedTitle = title;
+                        mFeedLink = link;
+                        mFeedDescription = description;
+                    }
+
+                    title = null;
+                    link = null;
+                    description = null;
+                    isItem = false;
+                }
             }
+
+            return items;
+        } finally {
+            inputStream.close();
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view  = inflater.inflate(R.layout.fragment_rss, container, false);
+        View view = inflater.inflate(R.layout.fragment_rss, container, false);
 
         mRecyclerView = view.findViewById(R.id.recyclerView);
         mEditText = view.findViewById(R.id.rssFeedEditText);
-        mFetchFeedButton = view.findViewById(R.id.fetchFeedButton);
         mSwipeLayout = view.findViewById(R.id.swipeRefreshLayout);
-        mFeedTitleTextView = view.findViewById(R.id.feedTitle);
-        mFeedDescriptionTextView = view.findViewById(R.id.feedDescription);
-        mFeedLinkTextView = view.findViewById(R.id.feedLink);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        mFetchFeedButton.setOnClickListener(view1 -> new FetchFeedTask().execute((Void) null));
-        mSwipeLayout.setOnRefreshListener(() -> new FetchFeedTask().execute((Void) null));
-
+        mSwipeLayout.setOnClickListener(v -> new  FetchFeedTask().execute((Void) null));
+        new  FetchFeedTask().execute((Void) null);
         return view;
     }
 
@@ -195,6 +184,11 @@ public class RssFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
+//        if (context instanceof OnFragmentInteractionListener) {
+//            mListener = (OnFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
     }
-
 }

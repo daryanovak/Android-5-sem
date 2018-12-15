@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="140sp"
         android:text="@string/edit_button_name"
-        android:textColorLink="@color/design_default_color_secondary"
+        android:textColorLink="@color/colorAccent"
         android:textSize="14sp" />
         </LinearLayout>
     </ScrollView>
