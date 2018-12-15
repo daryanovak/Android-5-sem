@@ -62,6 +62,7 @@
     <string name="logout_description_for_dialog">Are you sure you want to log out?</string>
     <string name="positive_logout">Yes</string>
     <string name="negative_logout">No</string>
+    <string name="registration">Registration</string>
 
 
 </resources>

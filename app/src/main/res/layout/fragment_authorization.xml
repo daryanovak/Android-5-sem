@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.authentication.AuthorizationFragment"
+    tools:context=".fragments.AuthorizationFragment"
     android:orientation="vertical">
 
     <LinearLayout
@@ -47,6 +47,7 @@
 
         <Button
             android:id="@+id/log_in_button"
+            style="@style/PurpleButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/log_in_button_name"/>
@@ -54,7 +55,8 @@
         <Button
             android:id="@+id/go_to_registration_button"
             android:layout_width="match_parent"
+            style="@style/PurpleButton"
             android:layout_height="wrap_content"
-            android:text="@string/go_to_registration_button_name"/>
+            android:text="@string/registration"/>
     </LinearLayout>
 </LinearLayout>

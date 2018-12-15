@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragments.authentication.RegistrationFragment">
+    tools:context=".fragments.RegistrationFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -112,12 +112,14 @@
                 android:id="@+id/registration_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/PurpleButton"
                 android:text="@string/registration_button_name" />
 
             <Button
                 android:id="@+id/back_from_registration_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/PurpleButton"
                 android:text="@string/back_to_user_info" />
         </LinearLayout>
     </ScrollView>

@@ -25,5 +25,6 @@
         android:id="@+id/save_news_resource_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/PurpleButton"
         android:text="@string/save_user_info"/>
 </LinearLayout>
