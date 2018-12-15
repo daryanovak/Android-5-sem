@@ -56,7 +56,8 @@ public class RssFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             mSwipeLayout.setRefreshing(true);
-            urlLink = "https://rss.nytimes.com/services/xml/rss/nyt/US.xml";
+            //urlLink = "https://rss.nytimes.com/services/xml/rss/nyt/US.xml";
+            urlLink = rssFeed.getRssResource();
         }
 
         @Override

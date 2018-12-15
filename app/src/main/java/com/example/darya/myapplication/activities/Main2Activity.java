@@ -62,17 +62,21 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment,
 
     @Override
     public void saveNewsResources(String resource) {
-
+        User user = userSQLiteRepository.getUserById(currentUserId);
+        user.setNewsResource(resource);
+        userSQLiteRepository.savedUser(user);
+        navController.popBackStack();
     }
 
     @Override
     public String getRssResource() {
-        return null;
+        return userSQLiteRepository.getUserById(currentUserId).getNewsResource();
     }
 
     @Override
     public void redirectedToSettings() {
-
+        navController.popBackStack();
+        navController.navigate(R.id.feedSettingFragment);
     }
 
     private interface Delegate{

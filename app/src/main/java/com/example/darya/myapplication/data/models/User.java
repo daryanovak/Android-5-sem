@@ -7,6 +7,7 @@ public class User {
     private String email;
     private String phone;
     private String password;
+    private String newsResource;
 
     public User(String firsName, String lastName, String email, String phone){
         this.firstName = firsName;
@@ -19,6 +20,12 @@ public class User {
         this(firstName, lastName, email, phone);
         this.password = password;
         this.id = id;
+    }
+
+    public User(int id, String firstName, String lastName, String email, String phone, String password,
+                String newsResource){
+        this(id, firstName, lastName, email, phone, password);
+        this.newsResource = newsResource;
     }
 
     public String getFirstName(){
@@ -62,5 +69,13 @@ public class User {
                 this.lastName.equals(checkedUser.getLastName()) &&
                 this.phone.equals(checkedUser.getPhone()) &&
                 this.email.equals(checkedUser.getEmail());
+    }
+
+    public String getNewsResource() {
+        return newsResource;
+    }
+
+    public void setNewsResource(String resource){
+        this.newsResource = resource;
     }
 }

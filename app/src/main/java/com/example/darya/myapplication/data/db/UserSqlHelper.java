@@ -20,7 +20,8 @@ public class UserSqlHelper extends SQLiteOpenHelper {
                 + SqlUserFields.last_name + " TEXT NOT NULL, "
                 + SqlUserFields.email + " TEXT NOT NULL, "
                 + SqlUserFields.phone + " TEXT NOT NULL, "
-                + SqlUserFields.password + " TEXT NOT NULL);";
+                + SqlUserFields.password + " TEXT NOT NULL, "
+                + SqlUserFields.news_resource_link + " TEXT);";
         db.execSQL(request);
     }
 

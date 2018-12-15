@@ -35,4 +35,9 @@
         android:id="@+id/rssFragment2"
         android:name="com.example.darya.myapplication.fragments.RssFragment"
         android:label="RssFragment" />
+    <fragment
+        android:id="@+id/feedSettingFragment"
+        android:name="com.example.darya.myapplication.fragments.FeedSettingFragment"
+        android:label="fragment_feed_setting"
+        tools:layout="@layout/fragment_feed_setting" />
 </navigation>

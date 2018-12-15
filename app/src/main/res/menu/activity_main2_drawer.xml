@@ -25,7 +25,7 @@
                 android:icon="@drawable/ic_menu_share"
                 android:title="@string/share_item" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/feedSettingFragment"
                 android:icon="@drawable/ic_menu_send"
                 android:title="@string/send_item" />
         </menu>

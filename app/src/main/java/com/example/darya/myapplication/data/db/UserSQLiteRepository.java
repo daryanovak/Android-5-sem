@@ -23,6 +23,8 @@ public class UserSQLiteRepository {
         cv.put(SqlUserFields.last_name.toString(), user.getLastName());
         cv.put(SqlUserFields.phone.toString(), user.getPhone());
         cv.put(SqlUserFields.email.toString(), user.getEmail());
+        cv.put(SqlUserFields.news_resource_link.toString(), user.getNewsResource());
+
 
         try (SQLiteDatabase db = userSqlHelper.getReadableDatabase()) {
             db.update(userSqlHelper.NAME_OF_TABLE, cv,
@@ -38,6 +40,7 @@ public class UserSQLiteRepository {
         contentValues.put(SqlUserFields.phone.toString(), user.getPhone());
         contentValues.put(SqlUserFields.email.toString(), user.getEmail());
         contentValues.put(SqlUserFields.password.toString(), user.getHashedPassword());
+        contentValues.put(SqlUserFields.news_resource_link.toString(), user.getNewsResource());
         try (SQLiteDatabase database = userSqlHelper.getReadableDatabase()) {
             database.insert(userSqlHelper.NAME_OF_TABLE, null, contentValues);
         }
@@ -55,7 +58,9 @@ public class UserSQLiteRepository {
                 String lastName = cursor.getString(SqlUserFields.last_name.ordinal());
                 String phone = cursor.getString(SqlUserFields.phone.ordinal());
                 String password = cursor.getString(SqlUserFields.password.ordinal());
-                return new User(userId, firstName, lastName, email, phone, password);
+                String resource = cursor.getString(SqlUserFields.news_resource_link.ordinal());
+
+                return new User(userId, firstName, lastName, email, phone, password, resource);
             }
             return null;
         }
@@ -74,7 +79,9 @@ public class UserSQLiteRepository {
                 String phone = cursor.getString(SqlUserFields.phone.ordinal());
                 String email = cursor.getString(SqlUserFields.email.ordinal());
                 String password = cursor.getString(SqlUserFields.password.ordinal());
-                return new User(userId, firstName, lastName, email, phone, password);
+                String resource = cursor.getString(SqlUserFields.news_resource_link.ordinal());
+
+                return new User(userId, firstName, lastName, email, phone, password, resource);
             }
             return null;
         }

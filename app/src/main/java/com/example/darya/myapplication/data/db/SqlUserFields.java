@@ -6,5 +6,6 @@ enum SqlUserFields {
     last_name,
     email,
     phone,
-    password
+    password,
+    news_resource_link
 }
