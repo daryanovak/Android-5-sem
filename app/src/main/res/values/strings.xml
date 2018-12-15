@@ -45,7 +45,6 @@
     <string name="confirm_password_label">Confirm password</string>
 
 
-
     <!-- Empty field error messages -->
     <string name="message_for_empty_email">Email field cannot be empty</string>
     <string name="message_for_empty_password">Password field cannot be empty</string>
