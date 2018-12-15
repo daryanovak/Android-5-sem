@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.darya.myapplication.R;
 import com.example.darya.myapplication.data.RssFeedListAdapter;
 import com.example.darya.myapplication.data.models.RssFeedModel;
+import com.example.darya.myapplication.interfaces.rss.RssFeed;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -35,7 +36,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class RssFragment extends Fragment {
     private Context context;
-
+    private RssFeed rssFeed;
 
     private RecyclerView mRecyclerView;
     private EditText mEditText;
@@ -166,6 +167,12 @@ public class RssFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        String newsResources = rssFeed.getRssResource();
+        if (newsResources == null || newsResources.equals("")){
+            rssFeed.redirectedToSettings();
+        }
+
+
         View view = inflater.inflate(R.layout.fragment_rss, container, false);
 
         mRecyclerView = view.findViewById(R.id.recyclerView);
@@ -184,11 +191,11 @@ public class RssFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
+        if (context instanceof RssFeed) {
+            rssFeed = (RssFeed) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
     }
 }

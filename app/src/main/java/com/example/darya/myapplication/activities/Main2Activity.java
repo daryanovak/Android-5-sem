@@ -23,6 +23,8 @@ import com.example.darya.myapplication.fragments.FragmentUser;
 import com.example.darya.myapplication.interfaces.PhoneimeiInfoFragment;
 import com.example.darya.myapplication.interfaces.UserEditFragment;
 import com.example.darya.myapplication.interfaces.UserInfoFragment;
+import com.example.darya.myapplication.interfaces.rss.FeedSetting;
+import com.example.darya.myapplication.interfaces.rss.RssFeed;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
@@ -42,7 +44,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 public class Main2Activity extends AccountManagerActivity
-implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
+implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment,
+        FeedSetting, RssFeed {
 
     final int OPEN_CAMERA_REQUEST = 1;
     final int OPEN_GALLERY_REQUEST = 2;
@@ -56,6 +59,21 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment {
     private boolean currentPageIsEditing = false;
 
     private View headerView;
+
+    @Override
+    public void saveNewsResources(String resource) {
+
+    }
+
+    @Override
+    public String getRssResource() {
+        return null;
+    }
+
+    @Override
+    public void redirectedToSettings() {
+
+    }
 
     private interface Delegate{
         void invoke();
