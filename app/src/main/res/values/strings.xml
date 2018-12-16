@@ -63,6 +63,10 @@
     <string name="positive_logout">Yes</string>
     <string name="negative_logout">No</string>
     <string name="registration">Registration</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="edit">Edit</string>
 
 
 </resources>

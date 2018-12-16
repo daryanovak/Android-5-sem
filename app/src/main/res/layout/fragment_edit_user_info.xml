@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragments.FragmentUser">
+    tools:context=".fragments.FragmentUser"
+    >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -89,14 +90,6 @@
                 android:text="@string/save_user_info"
                 android:textSize="14sp" />
 
-            <Button
-                android:id="@+id/back_from_edit_button"
-                style="@style/PurpleButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="@string/back_to_user_info"
-                android:textSize="14sp" />
         </LinearLayout>
     </ScrollView>
 

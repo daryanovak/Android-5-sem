@@ -48,8 +48,8 @@ public class FragmentEditUserInfo extends Fragment {
                     userEditFragment.ClickButtonBack();
                 });
 
-        view.findViewById(R.id.back_from_edit_button).setOnClickListener(
-                v-> userEditFragment.ClickButtonBack());
+//        view.findViewById(R.id.back_from_edit_button).setOnClickListener(
+//                v-> userEditFragment.ClickButtonBack());
 
         userEditFragment.loadUserAvatar(avatarView);
         avatarView.setOnClickListener(v->userEditFragment.updatePhoto());
