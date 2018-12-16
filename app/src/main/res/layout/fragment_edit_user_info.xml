@@ -83,12 +83,13 @@
 
             <Button
                 android:id="@+id/save_user_info_button"
-                style="@style/PurpleButton"
+                android:background="@drawable/buttonstyleithgradient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="@string/save_user_info"
-                android:textSize="14sp" />
+                android:textColor="@color/white"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/save_user_info" />
 
         </LinearLayout>
     </ScrollView>

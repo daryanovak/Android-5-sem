@@ -47,16 +47,22 @@
 
         <Button
             android:id="@+id/log_in_button"
-            style="@style/PurpleButton"
+            android:background="@drawable/buttonstyleithgradient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
             android:text="@string/log_in_button_name"/>
 
         <Button
             android:id="@+id/go_to_registration_button"
+            android:background="@drawable/buttonstyleithgradient"
             android:layout_width="match_parent"
-            style="@style/PurpleButton"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
             android:text="@string/registration"/>
     </LinearLayout>
 </LinearLayout>

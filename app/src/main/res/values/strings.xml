@@ -67,6 +67,10 @@
     <string name="email">Email</string>
     <string name="name">Name</string>
     <string name="edit">Edit</string>
+    <string name="update_imei">Update imei</string>
+    <string name="rss_resource">RSS Resource</string>
+    <string name="dvaaaaaa">DvAAAAAA</string>
+    <string name="daaaaaa">DAAAAAA</string>
 
 
 </resources>

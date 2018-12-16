@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -180,7 +181,12 @@ public class RssFragment extends Fragment {
 //        mEditText = view.findViewById(R.id.rssFeedEditText);
         mSwipeLayout = view.findViewById(R.id.swipeRefreshLayout);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        if (getResources().getBoolean(R.bool.isTablet)){
+            mRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), getResources().getInteger(R.integer.columns_count), RecyclerView.VERTICAL, false));
+        }
+        else {
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false));
+        }
 
         mSwipeLayout.setOnClickListener(v -> new  FetchFeedTask().execute((Void) null));
         new  FetchFeedTask().execute((Void) null);

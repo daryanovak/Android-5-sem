@@ -77,7 +77,7 @@
             android:background="@drawable/buttonstyleithgradient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/save_user_info"
+            android:text="@string/update_imei"
             android:textSize="14sp" />
 
     </LinearLayout>
