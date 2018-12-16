@@ -11,11 +11,9 @@ public class UserSQLiteRepository {
     private UserSqlHelper userSqlHelper;
     private int userId;
 
-
     public UserSQLiteRepository(Context contex){
         userSqlHelper = new UserSqlHelper(contex);
     }
-
 
     public void savedUser(User user) {
         ContentValues cv = new ContentValues();
@@ -24,7 +22,6 @@ public class UserSQLiteRepository {
         cv.put(SqlUserFields.phone.toString(), user.getPhone());
         cv.put(SqlUserFields.email.toString(), user.getEmail());
         cv.put(SqlUserFields.news_resource_link.toString(), user.getNewsResource());
-
 
         try (SQLiteDatabase db = userSqlHelper.getReadableDatabase()) {
             db.update(userSqlHelper.NAME_OF_TABLE, cv,
@@ -65,7 +62,6 @@ public class UserSQLiteRepository {
             return null;
         }
     }
-
 
     public User getUserById(int id){
         try (SQLiteDatabase db = userSqlHelper.getReadableDatabase()) {

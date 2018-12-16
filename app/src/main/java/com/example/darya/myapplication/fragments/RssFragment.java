@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.darya.myapplication.R;
+import com.example.darya.myapplication.data.HtmlConverter;
 import com.example.darya.myapplication.data.RssFeedListAdapter;
 import com.example.darya.myapplication.data.models.RssFeedModel;
 import com.example.darya.myapplication.interfaces.rss.RssFeed;
@@ -40,8 +41,6 @@ public class RssFragment extends Fragment {
     private RssFeed rssFeed;
 
     private RecyclerView mRecyclerView;
-    private EditText mEditText;
-    private Button mFetchFeedButton;
     private SwipeRefreshLayout mSwipeLayout;
 
     private List<RssFeedModel> mFeedModelList;
@@ -73,6 +72,7 @@ public class RssFragment extends Fragment {
                 URL url = new URL(urlLink);
                 InputStream inputStream = url.openConnection().getInputStream();
                 mFeedModelList = parseFeed(inputStream);
+                rssFeed.saveRssInCache(mFeedModelList.subList(0, 10));
                 return true;
             } catch (IOException | XmlPullParserException e) {
                 Log.e("Error", e.getMessage());
@@ -85,7 +85,7 @@ public class RssFragment extends Fragment {
             mSwipeLayout.setRefreshing(false);
 
             if (success) {
-                mRecyclerView.setAdapter(new RssFeedListAdapter(mFeedModelList));
+                mRecyclerView.setAdapter(new RssFeedListAdapter(mFeedModelList, context));
             } else {
                 Toast.makeText(context, "Enter a valid Rss feed url", Toast.LENGTH_LONG).show();
             }
@@ -97,6 +97,8 @@ public class RssFragment extends Fragment {
         String title = null;
         String link = null;
         String description = null;
+        String date = null;
+
         boolean isItem = false;
         List<RssFeedModel> items = new ArrayList<RssFeedModel>();
 
@@ -140,11 +142,15 @@ public class RssFragment extends Fragment {
                     link = result;
                 } else if (name.equalsIgnoreCase("description")) {
                     description = result;
+                } else if (name.equalsIgnoreCase("pubDate")){
+                    date = result;
                 }
 
                 if (title != null && link != null && description != null) {
                     if(isItem) {
-                        RssFeedModel item = new RssFeedModel(title, link, description);
+                        HtmlConverter converter = new HtmlConverter(description);
+                        RssFeedModel item = new RssFeedModel(title, link, converter.getText(), date);
+                        item.srcPicture = converter.getImageSource();
                         items.add(item);
                     }
                     else {
@@ -177,8 +183,9 @@ public class RssFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_rss, container, false);
 
+       // rssFeed.checkInternet();
+
         mRecyclerView = view.findViewById(R.id.recyclerView);
-//        mEditText = view.findViewById(R.id.rssFeedEditText);
         mSwipeLayout = view.findViewById(R.id.swipeRefreshLayout);
 
         if (getResources().getBoolean(R.bool.isTablet)){
@@ -189,8 +196,11 @@ public class RssFragment extends Fragment {
         }
 
         mSwipeLayout.setOnClickListener(v -> new  FetchFeedTask().execute((Void) null));
+
         new  FetchFeedTask().execute((Void) null);
         return view;
+
+
     }
 
 

@@ -1,12 +1,15 @@
 package com.example.darya.myapplication.data;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.darya.myapplication.R;
 import com.example.darya.myapplication.data.models.RssFeedModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -16,6 +19,7 @@ public class RssFeedListAdapter
         extends RecyclerView.Adapter<RssFeedListAdapter.FeedModelViewHolder> {
 
     private List<RssFeedModel> mRssFeedModels;
+    private Context context;
 
     public static class FeedModelViewHolder extends RecyclerView.ViewHolder {
         private View rssFeedView;
@@ -26,8 +30,9 @@ public class RssFeedListAdapter
         }
     }
 
-    public RssFeedListAdapter(List<RssFeedModel> rssFeedModels) {
+    public RssFeedListAdapter(List<RssFeedModel> rssFeedModels, Context context) {
         mRssFeedModels = rssFeedModels;
+        this.context = context;
     }
 
     @Override
@@ -44,7 +49,10 @@ public class RssFeedListAdapter
         ((TextView) holder.rssFeedView.findViewById(R.id.titleText)).setText(rssFeedModel.title);
         ((TextView) holder.rssFeedView.findViewById(R.id.descriptionText))
                 .setText(rssFeedModel.description);
-//        ((TextView) holder.rssFeedView.findViewById(R.id.linkText)).setText(rssFeedModel.link);
+        ((TextView) holder.rssFeedView.findViewById(R.id.txtPubDate)).setText(rssFeedModel.date);
+//        Picasso.with(context).load(rssFeedModel.srcPicture)
+//                .into((ImageView) holder.rssFeedView.findViewById(R.id.image_feed));
+//        //        ((TextView) holder.rssFeedView.findViewById(R.id.linkText)).setText(rssFeedModel.link);
     }
 
     @Override

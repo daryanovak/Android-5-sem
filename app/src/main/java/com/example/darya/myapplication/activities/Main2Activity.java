@@ -16,8 +16,11 @@ import android.widget.TextView;
 
 import com.example.darya.myapplication.BuildConfig;
 import com.example.darya.myapplication.R;
+import com.example.darya.myapplication.data.CheckInternetAsyncTask;
+import com.example.darya.myapplication.data.db.RssSQLiteRepository;
 import com.example.darya.myapplication.data.db.UserSQLiteRepository;
 import com.example.darya.myapplication.data.filemanager.FilePhotoManager;
+import com.example.darya.myapplication.data.models.RssFeedModel;
 import com.example.darya.myapplication.data.models.User;
 import com.example.darya.myapplication.fragments.FragmentUser;
 import com.example.darya.myapplication.interfaces.PhoneimeiInfoFragment;
@@ -55,6 +58,8 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment,
 
     private NavController navController;
     private FilePhotoManager filePhotoManager;
+    private RssSQLiteRepository rssSQLiteRepository;
+
 
     private boolean currentPageIsEditing = false;
 
@@ -79,6 +84,18 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment,
         navController.navigate(R.id.feedSettingFragment);
     }
 
+    @Override
+    public void saveRssInCache(List<RssFeedModel> feeds) {
+        for (RssFeedModel feed: feeds) {
+            rssSQLiteRepository.addRss(feed);
+        }
+    }
+
+    @Override
+    public void checkInternet() {
+        new CheckInternetAsyncTask(this).execute();
+    }
+
     private interface Delegate{
         void invoke();
     }
@@ -98,6 +115,7 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment,
         }
 
         filePhotoManager = new FilePhotoManager(this);
+        rssSQLiteRepository = new RssSQLiteRepository(this);
 
         setContentView(R.layout.activity_main2);//отобразить xml
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -240,6 +258,8 @@ implements UserEditFragment, UserInfoFragment, PhoneimeiInfoFragment,
     public void ClickButtonUdpate(User user) {//save edited information about user
         final ImageView viewForAvatar = findViewById(R.id.edit_avatar_image_view);
         Bitmap avatar = ((BitmapDrawable)viewForAvatar.getDrawable()).getBitmap();
+        User temp = userSQLiteRepository.getUserByEmail(user.getEmail());
+        if (temp == null || temp.getId() == user.getId())
         userSQLiteRepository.savedUser(user);
         filePhotoManager.updateAvatar(avatar);
 

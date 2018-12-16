@@ -5,6 +5,7 @@ public class RssFeedModel {
     public String link;
     public String description;
     public String date;
+    public String srcPicture;
 
     public RssFeedModel(String title, String link, String description) {
         this.title = title;
